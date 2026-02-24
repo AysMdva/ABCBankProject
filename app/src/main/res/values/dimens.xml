@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="spacing_5xs">2dp</dimen>
+    <dimen name="spacing_4xs">4dp</dimen>
+    <dimen name="spacing_xs">8dp</dimen>
+    <dimen name="spacing_sm">12dp</dimen>
+    <dimen name="spacing_md">16dp</dimen>
+    <dimen name="spacing_lg">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+
+    <dimen name="spacing_fab_offset">90dp</dimen>
+    <dimen name="indicator_dot_size">8dp</dimen>
+    <dimen name="indicator_dot_margin">4dp</dimen>
+
+</resources>

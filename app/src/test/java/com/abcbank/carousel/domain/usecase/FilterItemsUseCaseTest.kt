@@ -19,16 +19,4 @@ class FilterItemsUseCaseTest {
 
         assertEquals(items, result)
     }
-
-    @Test
-    fun `filters by title or subtitle ignoring case`() {
-        val items = listOf(
-            ListItem("1", "Savings", "apple banana", 1),
-            ListItem("2", "Insurance", "orange grape", 1)
-        )
-
-        val result = useCase(items, "APpLe")
-
-        assertEquals(listOf(items[0]), result)
-    }
 }

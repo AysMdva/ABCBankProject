@@ -4,8 +4,8 @@ import androidx.compose.runtime.Stable
 import com.abcbank.carousel.domain.model.ListItem
 import com.abcbank.carousel.domain.model.PageData
 
-/** UI state for carousel screen; hoisted so Composables stay pure (state down, events up). */
-@Stable
+// UI state for carousel screen
+@Stable  // rather than Immutable, we cant ensure that this data wont change, probably will change
 data class CarouselScreenState(
     val pages: List<PageData>,
     val currentPage: Int,
