@@ -2,6 +2,7 @@ package com.abcbank.carousel.domain.usecase
 
 import com.abcbank.carousel.domain.model.ListItem
 
+/** Case-insensitive filter by title or subtitle; empty query returns all items. */
 class FilterItemsUseCase {
 
     operator fun invoke(items: List<ListItem>, query: String): List<ListItem> {

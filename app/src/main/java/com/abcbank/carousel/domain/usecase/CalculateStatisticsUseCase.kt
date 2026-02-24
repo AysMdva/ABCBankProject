@@ -4,6 +4,7 @@ import com.abcbank.carousel.domain.model.CharacterCount
 import com.abcbank.carousel.domain.model.PageData
 import com.abcbank.carousel.domain.model.PageStatistics
 
+/** Produces per-page stats: item count and top 3 letter frequencies (letters only, case-insensitive). */
 class CalculateStatisticsUseCase {
 
     operator fun invoke(pages: List<PageData>): List<PageStatistics> {
