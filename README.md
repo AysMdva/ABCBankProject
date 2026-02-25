@@ -2,8 +2,6 @@
 
 A simple Android app that shows a carousel of images, page indicators, a search bar, and a scrollable list of items. You can filter the list by typing in the search field.
 
-![App screenshot](docs/screenshot.svg)
-
 ## What it contains
 
 - **Image carousel** — Swipeable header with multiple pages and dot indicators
