@@ -24,10 +24,4 @@ data class CarouselScreenState(
             isLoading = false
         )
     }
-
-    val hasSearchQuery: Boolean
-        get() = searchQuery.isNotBlank()
-
-    val pageCount: Int
-        get() = pages.size
 }
