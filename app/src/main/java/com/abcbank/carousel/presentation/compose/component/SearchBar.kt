@@ -1,5 +1,7 @@
+@file:OptIn(ExperimentalFoundationApi::class)
 package com.abcbank.carousel.presentation.compose.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedTextField

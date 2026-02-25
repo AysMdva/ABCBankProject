@@ -16,7 +16,7 @@ class ComposeMainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Surface(color = MaterialTheme.colorScheme.background) {
+            Surface(color = MaterialTheme.colorScheme.onPrimaryContainer) {
                 CarouselScreenRoute(viewModel = viewModel)
             }
         }

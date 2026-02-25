@@ -4,22 +4,20 @@ import com.abcbank.carousel.domain.model.CharacterCount
 import com.abcbank.carousel.domain.model.PageData
 import com.abcbank.carousel.domain.model.PageStatistics
 
-/** Produces per-page stats: item count and top 3 letter frequencies (letters only, case-insensitive). */
 class CalculateStatisticsUseCase {
 
     operator fun invoke(pages: List<PageData>): List<PageStatistics> {
-        return pages.mapIndexed { index, page ->
-            val allText = page.items.joinToString(separator = "") { "${it.title}${it.subtitle}" }
-
+        return pages.mapIndexed { i, page ->
+            val text = page.items.joinToString("") { "${it.title}${it.subtitle}" }
             PageStatistics(
-                pageNumber = index + 1,
+                pageNumber = i + 1,
                 itemCount = page.items.size,
-                topCharacters = calculateTopCharacters(allText)
+                topCharacters = topChars(text)
             )
         }
     }
 
-    private fun calculateTopCharacters(text: String): List<CharacterCount> {
+    private fun topChars(text: String): List<CharacterCount> {
         return text
             .filter(Char::isLetter)
             .lowercase()
@@ -28,8 +26,6 @@ class CalculateStatisticsUseCase {
             .entries
             .sortedWith(compareByDescending<Map.Entry<Char, Int>> { it.value }.thenBy { it.key })
             .take(3)
-            .map { (character, count) ->
-                CharacterCount(character = character, count = count)
-            }
+            .map { (char, count) -> CharacterCount(character = char, count = count) }
     }
 }

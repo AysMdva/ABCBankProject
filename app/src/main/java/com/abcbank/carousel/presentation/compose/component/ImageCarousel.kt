@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.abcbank.carousel.presentation.compose.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

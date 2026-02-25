@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ABCBankCarousel</string>
-    <string name="search_hint">Search by title or subtitle</string>
+    <string name="app_name">ABCBankProject</string>
+    <string name="search_hint">Search</string>
     <string name="statistics">Statistics</string>
     <string name="page_label">List %1$d</string>
     <string name="item_count">%1$d items</string>

@@ -1,3 +1,4 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
 package com.abcbank.carousel.presentation.compose.component
 
 import androidx.compose.foundation.layout.Column
@@ -16,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.abcbank.carousel.domain.model.PageStatistics
 import com.abcbank.carousel.util.toDisplayText
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatisticsBottomSheet(
     statistics: List<PageStatistics>,

@@ -12,35 +12,30 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * Single source of truth for carousel + list + search. Consumed by both XML and Compose UIs.
- * State is immutable; all updates go through [state] Flow.
- */
 class MainViewModel(
     private val calculateStatisticsUseCase: CalculateStatisticsUseCase = CalculateStatisticsUseCase(),
     private val filterItemsUseCase: FilterItemsUseCase = FilterItemsUseCase()
 ) : ViewModel() {
 
-    private val allPages = generateSampleData()
-    private val statistics = calculateStatisticsUseCase(allPages)
+    private val pages = generateSampleData()
+    private val stats = calculateStatisticsUseCase(pages)
 
     private val _state = MutableStateFlow(CarouselScreenState.Empty.copy(isLoading = true))
     val state: StateFlow<CarouselScreenState> = _state.asStateFlow()
 
     init {
-        loadInitialData()
+        loadData()
     }
 
     fun onPageChanged(page: Int) {
-        if (page !in allPages.indices) return
-
+        if (page !in pages.indices) return
         viewModelScope.launch {
-            _state.update { currentState ->
-                val pageItems = allPages[page].items
-                currentState.copy(
+            _state.update {
+                val items = pages[page].items
+                it.copy(
                     currentPage = page,
-                    currentItems = pageItems,
-                    filteredItems = filterItemsUseCase(pageItems, currentState.searchQuery)
+                    currentItems = items,
+                    filteredItems = filterItemsUseCase(items, it.searchQuery)
                 )
             }
         }
@@ -48,41 +43,41 @@ class MainViewModel(
 
     fun onSearchQueryChanged(query: String) {
         viewModelScope.launch {
-            _state.update { currentState ->
-                currentState.copy(
+            _state.update {
+                it.copy(
                     searchQuery = query,
-                    filteredItems = filterItemsUseCase(currentState.currentItems, query)
+                    filteredItems = filterItemsUseCase(it.currentItems, query)
                 )
             }
         }
     }
 
-    fun getStatistics() = statistics
+    fun getStatistics() = stats
 
-    private fun loadInitialData() {
-        val firstPageItems = allPages.firstOrNull().orEmptyItems()
-
+    private fun loadData() {
+        val firstPage = pages.firstOrNull()?.items.orEmpty()
         _state.update {
             it.copy(
-                pages = allPages,
+                pages = pages,
                 currentPage = 0,
-                currentItems = firstPageItems,
-                filteredItems = firstPageItems,
+                currentItems = firstPage,
+                filteredItems = firstPage,
                 isLoading = false
             )
         }
     }
 
+    // just sample data
     private fun generateSampleData(): List<PageData> {
-        val fruitsByPage = listOf(
+        val fruits = listOf(
             listOf("apple", "banana", "orange", "blueberry"),
             listOf("cherry", "grape", "melon", "strawberry"),
             listOf("kiwi", "lemon", "mango", "pineapple"),
             listOf("peach", "plum", "pear", "watermelon"),
             listOf("apricot", "coconut", "papaya", "guava")
         )
-        val itemCounts = listOf(25, 30, 20, 15, 28)
-        val imageRes = listOf(
+        val counts = listOf(25, 30, 20, 15, 28)
+        val icons = listOf(
             android.R.drawable.ic_menu_gallery,
             android.R.drawable.ic_menu_camera,
             android.R.drawable.ic_menu_compass,
@@ -90,21 +85,20 @@ class MainViewModel(
             android.R.drawable.ic_menu_mapmode
         )
 
-        return fruitsByPage.mapIndexed { pageIndex, fruits ->
+        return fruits.mapIndexed { i, tags ->
             PageData(
-                id = pageIndex,
-                imageRes = imageRes[pageIndex],
-                items = List(itemCounts[pageIndex]) { itemIndex ->
+                id = i,
+                imageRes = icons[i],
+                items = List(counts[i]) { j ->
                     com.abcbank.carousel.domain.model.ListItem(
-                        id = "${pageIndex}_$itemIndex",
-                        title = "Page ${pageIndex + 1} - Item ${itemIndex + 1}",
-                        subtitle = fruits.joinToString(" "),
-                        thumbnailRes = imageRes[pageIndex]
+                        id = "${i}_$j",
+                        title = "Page ${i + 1} - Item ${j + 1}",
+                        subtitle = tags.joinToString(" "),
+                        thumbnailRes = icons[i]
                     )
                 }
             )
         }
     }
-
-    private fun PageData?.orEmptyItems() = this?.items.orEmpty()
 }
+

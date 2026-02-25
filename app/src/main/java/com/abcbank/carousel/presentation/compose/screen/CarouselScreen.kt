@@ -1,5 +1,7 @@
+@file:OptIn(ExperimentalFoundationApi::class)
 package com.abcbank.carousel.presentation.compose.screen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -55,9 +57,7 @@ fun CarouselScreen(
     var showBottomSheet by rememberSaveable { mutableStateOf(false) }
 
     DisposableEffect(Unit) {
-        onDispose {
-            // Intentional cleanup hook for observers tied to this composable lifecycle.
-        }
+        onDispose {}
     }
 
     LaunchedEffect(pagerState.currentPage) {
