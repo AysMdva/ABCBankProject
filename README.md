@@ -1,55 +1,40 @@
 # ABCBankCarousel
 
-Android demo app for a banking client: image carousel, scrollable filtered list, and statistics bottom sheet. Implemented twice—**XML (View)** and **Jetpack Compose**—on separate branches for comparison.
+Android demo app for a banking client: image carousel, scrollable filtered list, and statistics bottom sheet. The UI is implemented twice—**XML (View)** and **Jetpack Compose**—on separate branches for comparison.
 
-## Requirements
+![App screenshot](docs/screenshot.svg)
 
-- **Android Studio** Ladybug (2024.2.1) or newer (or compatible IDE)
 - **JDK 17**
 - **minSdk 24**, **targetSdk 35**
 
 ## Project structure
 
 - **Clean Architecture + MVVM**
-  - **Domain:** `domain/model/`, `domain/usecase/` (no Android deps)
-  - **Presentation:** shared `MainViewModel`; UI split by branch (XML vs Compose)
+  - **Domain:** `domain/model/`, `domain/usecase/` (no Android dependencies)
+  - **Presentation:** shared `ABCMainViewModel`; UI differs by branch (XML vs Compose)
   - **No data layer** (in-memory mock data)
 - **Package:** `com.abcbank.carousel`
 
-## Branches and how to run
+## Branches
 
-| Branch | UI stack | Launcher activity |
-|--------|----------|--------------------|
+| Branch | UI stack | Launcher activity      |
+|--------|----------|------------------------|
 | `main` | — | None (foundation only) |
-| `feature/xml-implementation` | View + ViewPager2 + RecyclerView + ViewBinding | `XmlMainActivity` |
-| `feature/compose-implementation` | Compose (HorizontalPager, LazyColumn, state hoisting) | `ComposeMainActivity` |
+| `feature/xml-implementation` | View + ViewPager2 + RecyclerView + ViewBinding | `ABCMainActivity`      |
+| `feature/compose-implementation` | Compose (HorizontalPager, LazyColumn, state hoisting) | `ComposeMainActivity`  |
 
-**To run the app in Android Studio:**
+Each UI branch has its own launcher activity; sync with Gradle and run the app from the branch you have checked out.
 
-1. Clone and open the project.
-2. Check out the UI branch you want:
-   - **XML:**  
-     `git checkout feature/xml-implementation`
-   - **Compose:**  
-     `git checkout feature/compose-implementation`
-3. **File → Sync Project with Gradle Files.**  
-   If the Gradle wrapper jar is missing, use **File → Build → Generate Gradle Wrapper** or install [Gradle 8.5+](https://gradle.org/install/) and run `gradle wrapper --gradle-version=8.5` in the project root.
-4. Run on a device or emulator (minSdk 24).
+## What the app does (both branches)
 
-## Features (both branches)
+- **Image carousel** — Swipe to change page; list and page indicators follow the current page.
+- **Scrollable list** — Different item counts per page (25, 30, 20, 15, 28). Each item has a thumbnail, title, and subtitle (e.g. fruit names).
+- **Search** — Pinned at top; filters by title or subtitle (case-insensitive, real-time).
+- **FAB** — Opens a bottom sheet with stats for all pages: page label, item count, and top 3 character counts.
 
-- **Image carousel** – swipe to change page; list content and page indicators update with the current page.
-- **Scrollable list** – per-page item counts: 25, 30, 20, 15, 28. Each item: thumbnail, title, subtitle (fruit names).
-- **Search** – pinned at top; filters by title or subtitle (case-insensitive, real-time).
-- **FAB** – opens bottom sheet with stats for all pages: page label, item count, top 3 character counts.
+## Implementation notes
 
-## Quality
-
-- **State:** ViewModel uses `StateFlow`; Compose uses `collectAsStateWithLifecycle()` and hoisted state/callbacks.
-- **Lifecycle:** No activity/fragment references in ViewModel; binding cleared in `onDestroyView` (XML); `viewModelScope` for coroutines.
+- **State:** ViewModel exposes `StateFlow`; Compose uses `collectAsStateWithLifecycle()` and hoisted state/callbacks.
+- **Lifecycle:** ViewModel has no activity/fragment references; XML clears binding in `onDestroyView`; coroutines use `viewModelScope`.
 - **Lists:** RecyclerView with `DiffUtil` (XML); LazyColumn with stable `key` (Compose).
-- **Tests:** Unit tests for `FilterItemsUseCase` and `CalculateStatisticsUseCase` under `app/src/test/`.
-
-## License
-
-Internal use; banking client.
+- **Tests:** Unit tests for `FilterItemsUseCase` in `app/src/test/`.

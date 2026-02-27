@@ -12,10 +12,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * Single source of truth for carousel + list + search. Consumed by both XML and Compose UIs.
- * State is immutable; all updates go through [state] Flow.
- */
 class MainViewModel(
     private val calculateStatisticsUseCase: CalculateStatisticsUseCase = CalculateStatisticsUseCase(),
     private val filterItemsUseCase: FilterItemsUseCase = FilterItemsUseCase()
